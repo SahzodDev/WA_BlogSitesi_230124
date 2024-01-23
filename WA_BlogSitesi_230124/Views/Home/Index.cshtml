@@ -1,8 +1,55 @@
-﻿@{
+﻿@using WA_BlogSitesi_230124.Entities;
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@model List<Article>
+
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Subject.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].ReadingTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].ReadCounter)
+            </th>
+            <th> Process </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReadingTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReadCounter)
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="#" asp-controller="Home" asp-route-id="@item.Id">Read</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+

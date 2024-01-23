@@ -1,0 +1,30 @@
+﻿@using WA_BlogSitesi_230124.Entities;
+
+
+@model List<Subject>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Non Followed Subjects
+            </th>
+            <th> Process </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="AddSubject" asp-controller="Home" asp-route-id="@item.Id">Add</a>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
