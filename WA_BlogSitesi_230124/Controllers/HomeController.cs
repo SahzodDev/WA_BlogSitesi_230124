@@ -55,6 +55,7 @@ namespace WA_BlogSitesi_230124.Controllers
             index2VM.FollowedSubjects = followedSubjects;
             index2VM.NonFollowedSubjects = notFollowedSubjects;
 
+
             return View(index2VM);
         }
 
