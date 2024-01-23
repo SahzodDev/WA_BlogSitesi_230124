@@ -10,9 +10,10 @@ namespace WA_BlogSitesi_230124.Models
         }
         public string Title { get; set; }
         public string ReadingTime { get; set; }
-        public AppUser Author { get; set; }
-        public Subject Subject { get; set; }
+        public string AuthorId { get; set; }
 
+        public int SubjectId { get; set; }
+        
         public IEnumerable<Subject> Subjects { get; set; }
         
 

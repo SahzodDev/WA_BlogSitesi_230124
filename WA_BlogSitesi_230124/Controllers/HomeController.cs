@@ -836,12 +836,19 @@ namespace WA_BlogSitesi_230124.Controllers
         [HttpPost]
         public async Task<IActionResult> AddArticle(CreateArticleVM createArticleVM)
         {
-            
-            
+            Article article = new Article()
+            {
+                AppUserId = createArticleVM.AuthorId,
+                ReadingTime = createArticleVM.ReadingTime,
+                SubjectId = createArticleVM.SubjectId,
+                Name = createArticleVM.Title
+
+            };
+
             // article VM olacak.
             //article nesnesine eşitlenecek
             //db eklenecek . değişiklikler kaydedilecek.
-            //appDbContext.Article.Add();
+            appDbContext.Article.Add(article);
             appDbContext.SaveChanges();
             return RedirectToAction("Index");
         }
