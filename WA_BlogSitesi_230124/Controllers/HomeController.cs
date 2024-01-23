@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -14,7 +15,7 @@ namespace WA_BlogSitesi_230124.Controllers
         private readonly UserManager<AppUser> userManager;
         private readonly AppDbContext appDbContext;
 
-        public HomeController(ILogger<HomeController> logger,UserManager<AppUser>userManager,AppDbContext appDbContext)
+        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, AppDbContext appDbContext)
         {
             _logger = logger;
             this.userManager = userManager;
@@ -425,7 +426,7 @@ namespace WA_BlogSitesi_230124.Controllers
         public async Task<IActionResult> AuthorDetail()
         {
             AppUser user = await userManager.GetUserAsync(HttpContext.User);
-            List<Article>articlesOfUser=appDbContext.Article.Where(a=>a.AppUserId==user.Id).ToList();
+            List<Article> articlesOfUser = appDbContext.Article.Where(a => a.AppUserId == user.Id).ToList();
             AppUserAuthorVM authorVM = new AppUserAuthorVM()
             {
                 AppUser = user,
@@ -873,39 +874,45 @@ namespace WA_BlogSitesi_230124.Controllers
         public async Task<IActionResult> GetArticle()
         {
             // Makaleler  yazarlarıyla birlikte görüntülencek
-            List<Article> articles = appDbContext.Article.Include(a=>a.Author).ToList();
+            List<Article> articles = appDbContext.Article.Include(a => a.Author).ToList();
             return View(articles);
         }
 
         public async Task<IActionResult> AddArticle()
         {
-            
-            CreateArticleVM createArticleVM=new CreateArticleVM();
+
+            CreateArticleVM createArticleVM = new CreateArticleVM();
             AppUser user = await userManager.GetUserAsync(HttpContext.User);
             createArticleVM.Author = user;
-            createArticleVM.Subjects=appDbContext.Subject.ToList();
+            createArticleVM.Subjects = appDbContext.Subject.ToList();
 
             // kullanıcı bulundu
             // bulunan kullanıcı view kısmına gönderildi.
             // view kısmına gönderme sebebi yazar olarak girilecek inputun dolu olması.
-               
-            
+
+
             return View(createArticleVM);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddArticle(CreateArticleVM createArticleVM)
         {
-            
-            
+
+            Article article = new Article()
+            {
+                Author = createArticleVM.Author,
+                Subject = createArticleVM.Subject,
+                ReadingTime = createArticleVM.ReadingTime,
+                Title = createArticleVM.Title
+            };
             // article VM olacak.
             //article nesnesine eşitlenecek
             //db eklenecek . değişiklikler kaydedilecek.
-            //appDbContext.Article.Add();
+            appDbContext.Article.Add(article);
             appDbContext.SaveChanges();
             return RedirectToAction("Index");
         }
-        
+
         public async Task<IActionResult> ReadArticle(string id)
         {
             //makale açılacak VM olarak görüntülenecek.
