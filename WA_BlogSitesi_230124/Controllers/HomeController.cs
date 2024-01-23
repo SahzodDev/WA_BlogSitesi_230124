@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Linq;
 using WA_BlogSitesi_230124.Context;
 using WA_BlogSitesi_230124.Entities;
 using WA_BlogSitesi_230124.Models;
@@ -56,6 +57,7 @@ namespace WA_BlogSitesi_230124.Controllers
             index2VM.AllSubjects = allSubjects;
             index2VM.FollowedSubjects = followedSubjects;
             index2VM.NonFollowedSubjects = notFollowedSubjects;
+
 
             return View(index2VM);
         }
