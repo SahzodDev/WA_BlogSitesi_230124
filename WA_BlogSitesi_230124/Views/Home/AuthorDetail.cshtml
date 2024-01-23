@@ -1,2 +1,22 @@
 ﻿@using WA_BlogSitesi_230124.Entities
 @model AppUser
+
+@if(Model !=null)
+{
+    @if (Model.Articles != null && Model.Articles.Any())
+    {
+        
+    }
+    else
+    {
+        <div class="author">
+           
+        </div>
+        
+        <p>Makaleniz bulunamadı</p>
+    }
+}
+else
+{
+    <p>Böyle bir kullanıcı bulunamadı</p>
+}
