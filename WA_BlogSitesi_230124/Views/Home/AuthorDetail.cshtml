@@ -4,7 +4,7 @@
 
 @if(Model.AppUser !=null)
 {
-    @if (Model.Articles != null && Model.Articles.Any())
+    @if (Model.Articles != null && Model.Articles.Count>0)
     {
         <div class="author">
             <h1>Hoşgeldin @Model.AppUser.UserName</h1>
