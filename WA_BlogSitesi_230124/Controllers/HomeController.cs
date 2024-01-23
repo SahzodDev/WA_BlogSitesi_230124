@@ -29,6 +29,7 @@ namespace WA_BlogSitesi_230124.Controllers
         }
 
 
+
         public async Task<IActionResult> Index2()
         {
             var mostViewedArticles = appDbContext.Article.OrderByDescending(a => a.ReadCounter).Take(10).Include(a => a.Subject).ToList();
@@ -83,7 +84,10 @@ namespace WA_BlogSitesi_230124.Controllers
             appDbContext.SaveChanges();
             return RedirectToAction("AddSubject");
         }
-        public IActionResult Privacy()
+    
+
+        public IActionResult About()
+
         {
             return View();
         }
@@ -422,7 +426,505 @@ namespace WA_BlogSitesi_230124.Controllers
         public async Task<IActionResult> AuthorDetail()
         {
             AppUser user = await userManager.GetUserAsync(HttpContext.User);
-            return View(user);
+            List<Article>articlesOfUser=appDbContext.Article.Where(a=>a.AppUserId==user.Id).ToList();
+            AppUserAuthorVM authorVM = new AppUserAuthorVM()
+            {
+                AppUser = user,
+                Articles = articlesOfUser,
+            };
+            return View(authorVM);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public async Task<IActionResult> GetArticle()
+        {
+            // Makaleler  yazarlarıyla birlikte görüntülencek
+            List<Article> articles = appDbContext.Article.Include(a=>a.Author).ToList();
+            return View(articles);
+        }
+
+        public async Task<IActionResult> AddArticle()
+        {
+            
+            CreateArticleVM createArticleVM=new CreateArticleVM();
+            AppUser user = await userManager.GetUserAsync(HttpContext.User);
+            createArticleVM.Author = user;
+            createArticleVM.Subjects=appDbContext.Subject.ToList();
+
+            // kullanıcı bulundu
+            // bulunan kullanıcı view kısmına gönderildi.
+            // view kısmına gönderme sebebi yazar olarak girilecek inputun dolu olması.
+               
+            
+            return View(createArticleVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddArticle(CreateArticleVM createArticleVM)
+        {
+            
+            
+            // article VM olacak.
+            //article nesnesine eşitlenecek
+            //db eklenecek . değişiklikler kaydedilecek.
+            //appDbContext.Article.Add();
+            appDbContext.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        
+        public async Task<IActionResult> ReadArticle(string id)
+        {
+            //makale açılacak VM olarak görüntülenecek.
+            //action tetiklendikçe sayaç 1 artacak.
+            Article article = appDbContext.Article.Find(id);
+            article.ReadCounter += 1;
+
+            return View(article);
+        }
+
+
+
+
+
+
+
+
+
+
     }
 }

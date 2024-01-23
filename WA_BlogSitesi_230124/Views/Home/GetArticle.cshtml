@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WA_BlogSitesi_230124.Entities.Article>
+
+@{
+    ViewData["Title"] = "GetArticle";
+}
+
+<h1>GetArticle</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ReadCounter)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>Ayarlar</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReadCounter)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("ReadArticle", "ReadArticle", new { id=item.Id }) |
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
