@@ -5,12 +5,43 @@
 {
     @if (Model.Articles != null && Model.Articles.Any())
     {
-        
+        <div class="author">
+            <h1>Hoşgeldin @Model.UserName</h1>
+            <p>İsim:@Model.FirstName Soyisim:@Model.LastName</p>
+            <div class="image">
+                <img src="~/@Model.ImageFile">
+            </div>
+            <br />
+            <h2 style="text-align:center">Makaleleriniz</h2>
+            <table class="table table-secondary table-hover">
+                <thead>
+                    <th>Makale Adı</th>
+                    <th>Makalenin Konusu</th>
+                    <th>Okunma Süresi</th>
+                    <th>Yayınlanma Tarihi</th>
+                </thead>
+                <tbody>
+                    @foreach(Article article in Model.Articles)
+                    {
+                        <td>@article.Title</td>
+                        <td>@article.Subject</td>
+                        <td>@article.ReadingTime</td>
+                        <td>@article.CreatedDate</td>
+                    }
+                </tbody>
+            </table>
+        </div>
     }
     else
     {
         <div class="author">
-           
+           <h1>Hoşgeldin @Model.UserName</h1>
+           <p>İsim:@Model.FirstName Soyisim:@Model.LastName</p>
+           <div class="image">
+                <img src="~/@Model.ImageFile">
+           </div>
+           <br />
+           <h2>Makaleniz bulunmamaktadır</h2>
         </div>
         
         <p>Makaleniz bulunamadı</p>
