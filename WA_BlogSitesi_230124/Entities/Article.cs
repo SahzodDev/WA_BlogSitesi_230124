@@ -10,7 +10,7 @@ namespace WA_BlogSitesi_230124.Entities
         public int? ReadCounter { get; set; } = 0;
         public AppUser? Author { get; set; }
         public string? AppUserId { get; set; }
-        public Subject? Subject { get; set; }
-        public int? SubjectId { get; set; }
+        public Subject Subject { get; set; }
+        public int SubjectId { get; set; }
     }
 }
