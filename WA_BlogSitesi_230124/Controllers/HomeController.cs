@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using WA_BlogSitesi_230124.Context;
 using WA_BlogSitesi_230124.Entities;
@@ -811,13 +812,17 @@ namespace WA_BlogSitesi_230124.Controllers
 
         public async Task<IActionResult> AddArticle()
         {
-            return View();
+            var userName = HttpContext.User.Identity.Name;    
+            var currentUser = await userManager.FindByNameAsync(userName);
+            return View(currentUser);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddArticle(Article article)
         {
+            // article VM olacak.
             appDbContext.Article.Add(article);
+            
             return RedirectToAction("Index");
         }
         
@@ -825,6 +830,8 @@ namespace WA_BlogSitesi_230124.Controllers
         {
             Article article = appDbContext.Article.Find(id);
             article.ReadCounter += 1;
+            appDbContext.Article.Include(a=>a.Author);
+            
 
             return RedirectToAction("Index");
         }
