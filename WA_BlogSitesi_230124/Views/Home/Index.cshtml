@@ -42,7 +42,7 @@
                     @Html.DisplayFor(modelItem => item.ReadCounter)
                 </td>
                 <td>
-                    <a class="btn btn-warning" asp-action="#" asp-controller="Home" asp-route-id="@item.Id">Read</a>
+                    <a class="btn btn-warning" asp-action="ReadArticle" asp-controller="Home" asp-route-id="@item.Id">Read</a>
                 </td>
             </tr>
         }
