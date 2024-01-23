@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using WA_BlogSitesi_230124.Context;
 using WA_BlogSitesi_230124.Entities;
 using WA_BlogSitesi_230124.Models;
 
@@ -10,11 +11,13 @@ namespace WA_BlogSitesi_230124.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<AppUser> userManager;
+        private readonly AppDbContext appDbContext;
 
-        public HomeController(ILogger<HomeController> logger,UserManager<AppUser>userManager)
+        public HomeController(ILogger<HomeController> logger,UserManager<AppUser>userManager,AppDbContext appDbContext)
         {
             _logger = logger;
             this.userManager = userManager;
+            this.appDbContext = appDbContext;
         }
 
         public IActionResult Index()
