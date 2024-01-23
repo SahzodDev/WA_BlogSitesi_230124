@@ -111,7 +111,134 @@ namespace WA_BlogSitesi_230124.Controllers
             return View(user);
         }
 
-		public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> Update(string id)
+        {
+            AppUser user = await userManager.FindByIdAsync(id);
+
+            if (user != null)
+            {
+                SignUpVM vm = new SignUpVM()
+                {
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+
+                };
+                return View(vm);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(string id, string userName, string firstName, string lastName, string email, string password, string passwordRepeat)
+        {
+            AppUser user = await userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    user.UserName = userName;
+                }
+                else
+                {
+                    ModelState.AddModelError("UpdateUser", "Username cannot be empty.");
+                }
+
+				if (!string.IsNullOrEmpty(firstName))
+				{
+					user.FirstName = firstName;
+				}
+				else
+				{
+					ModelState.AddModelError("UpdateUser", "First Name cannot be empty.");
+				}
+
+				if (!string.IsNullOrEmpty(lastName))
+				{
+					user.LastName = lastName;
+				}
+				else
+				{
+					ModelState.AddModelError("UpdateUser", "Last Name cannot be empty.");
+				}
+
+				if (!string.IsNullOrEmpty(email))
+                {
+                    user.Email = email;
+                }
+                else
+                {
+                    ModelState.AddModelError("UpdateUser", "Email cannot be empty");
+                }
+
+				if (!string.IsNullOrEmpty(passwordRepeat))
+				{
+					
+				}
+				else
+				{
+					ModelState.AddModelError("UpdateUser", "Repeat password cannot be empty.");
+				}
+
+				if (!string.IsNullOrEmpty(password))
+				{
+                    if (password == passwordRepeat)
+                    {
+						user.PasswordHash = passwordHasher.HashPassword(user, password);
+					}
+                    else
+                    {
+						ModelState.AddModelError("UpdateUser", "First Name cannot be empty.");
+					}
+					
+				}
+				else
+				{
+					ModelState.AddModelError("UpdateUser", "Passwords are not same.");
+				}
+
+				
+
+				
+
+                if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
+                {
+                    IdentityResult result = await userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        Errors(result);
+
+                    }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("UpdateUser", "User Not Found");
+            }
+
+			SignUpVM vm = new SignUpVM()
+			{
+				UserName = user.UserName,
+				FirstName = user.FirstName,
+				LastName = user.LastName,
+				Email = user.Email,
+
+			};
+
+			return View(vm);
+        }
+
+
+        public async Task<IActionResult> Index()
 		{
 			AppUser user = await userManager.GetUserAsync(HttpContext.User);
 
