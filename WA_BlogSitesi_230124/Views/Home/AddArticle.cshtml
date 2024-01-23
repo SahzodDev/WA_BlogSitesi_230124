@@ -1,43 +1,17 @@
-﻿@model WA_BlogSitesi_230124.Entities.Article
+﻿@model CreateArticleVM
 
-@{
-    ViewData["Title"] = "AddArticle";
-}
+<form class="form-group" asp-action="AddArticle" method="post">
 
-<h1>AddArticle</h1>
+    <label asp-for="Title" class="form-control">Title</label>
+    <input type="text" asp-for="ReadingTime" class="form-control" />
+    <label asp-for="ReadingTime" class="form-control">Reading Time</label>
+    <input asp-for="ReadingTime" class="form-control" />
+    <label asp-for="AuthorId" class="form-control">Author Id</label>
+    <input asp-for="AuthorId" class="form-control" value="@Model.AuthorId" readonly>School</input>
 
-<h4>Article</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddArticle">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Content" class="control-label"></label>
-                <input asp-for="Content" class="form-control" />
-                <span asp-validation-for="Content" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+    <select asp-for="SubjectId" asp-items="@(new SelectList(Model.Subjects, "Id", "Name"))" class="form-control">
+        <option value="">Select a subject</option>
+    </select>
+    <button type="submit" class="btn btn-secondary">Save</button>
 
-<div>
-    <a asp-action="Index">Ana Sayfaya Dön</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+</form>

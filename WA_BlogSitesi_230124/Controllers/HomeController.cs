@@ -883,7 +883,7 @@ namespace WA_BlogSitesi_230124.Controllers
 
             CreateArticleVM createArticleVM = new CreateArticleVM();
             AppUser user = await userManager.GetUserAsync(HttpContext.User);
-            createArticleVM.Author = user;
+            createArticleVM.AuthorId = user.Id;
             createArticleVM.Subjects = appDbContext.Subject.ToList();
 
             // kullanıcı bulundu
@@ -897,23 +897,20 @@ namespace WA_BlogSitesi_230124.Controllers
         [HttpPost]
         public async Task<IActionResult> AddArticle(CreateArticleVM createArticleVM)
         {
-
             Article article = new Article()
             {
-                Author = createArticleVM.Author,
-                Subject = createArticleVM.Subject,
+                AppUserId = createArticleVM.AuthorId,
                 ReadingTime = createArticleVM.ReadingTime,
-                Title = createArticleVM.Title
+                SubjectId = createArticleVM.SubjectId,
+                Name = createArticleVM.Title
+
             };
-            // article VM olacak.
-            //article nesnesine eşitlenecek
-            //db eklenecek . değişiklikler kaydedilecek.
-            appDbContext.Article.Add(article);
-            appDbContext.SaveChanges();
-            return RedirectToAction("Index");
+
+
+
         }
 
-        public async Task<IActionResult> ReadArticle(string id)
+            public async Task<IActionResult> ReadArticle(string id)
         {
             //makale açılacak VM olarak görüntülenecek.
             //action tetiklendikçe sayaç 1 artacak.
