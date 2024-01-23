@@ -1,15 +1,16 @@
 ﻿@using WA_BlogSitesi_230124.Entities
-@model AppUser
 
-@if(Model !=null)
+@model AppUserAuthorVM
+
+@if(Model.AppUser !=null)
 {
     @if (Model.Articles != null && Model.Articles.Any())
     {
         <div class="author">
-            <h1>Hoşgeldin @Model.UserName</h1>
-            <p>İsim:@Model.FirstName Soyisim:@Model.LastName</p>
+            <h1>Hoşgeldin @Model.AppUser.UserName</h1>
+            <p>İsim:@Model.AppUser.FirstName Soyisim:@Model.AppUser.LastName</p>
             <div class="image">
-                <img src="~/@Model.ImageFile">
+                <img src="~/@Model.AppUser.ImageFile">
             </div>
             <br />
             <h2 style="text-align:center">Makaleleriniz</h2>
@@ -35,11 +36,11 @@
     else
     {
         <div class="author">
-           <h1>Hoşgeldin @Model.UserName</h1>
-           <p>İsim:@Model.FirstName Soyisim:@Model.LastName</p>
-           <div class="image">
-                <img src="~/@Model.ImageFile">
-           </div>
+            <h1>Hoşgeldin @Model.AppUser.UserName</h1>
+            <p>İsim:@Model.AppUser.FirstName Soyisim:@Model.AppUser.LastName</p>
+            <div class="image">
+                <img src="~/@Model.AppUser.ImageFile">
+            </div>
            <br />
            <h2>Makaleniz bulunmamaktadır</h2>
         </div>
