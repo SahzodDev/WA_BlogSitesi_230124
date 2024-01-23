@@ -40,7 +40,7 @@ namespace WA_BlogSitesi_230124.Controllers
 
             var currentUser = await userManager.FindByNameAsync(userName);
 
-            var followedSubjectIds = currentUser.FollowedSubjects?.Select(s => s.Id);
+            List<int> followedSubjectIds = currentUser.FollowedSubjects?.Select(s => s.Id).ToList();
 
             var articlesInFollowedSubjects = appDbContext.Article.Where(a => followedSubjectIds.Contains(a.SubjectId)).ToList();
 
