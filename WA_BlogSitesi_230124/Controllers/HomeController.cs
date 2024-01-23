@@ -365,7 +365,13 @@ namespace WA_BlogSitesi_230124.Controllers
         public async Task<IActionResult> AuthorDetail()
         {
             AppUser user = await userManager.GetUserAsync(HttpContext.User);
-            return View(user);
+            List<Article>articlesOfUser=appDbContext.Article.Where(a=>a.AppUserId==user.Id).ToList();
+            AppUserAuthorVM authorVM = new AppUserAuthorVM()
+            {
+                AppUser = user,
+                Articles = articlesOfUser,
+            };
+            return View(authorVM);
         }
 
 
