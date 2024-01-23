@@ -135,7 +135,7 @@ namespace WA_BlogSitesi_230124.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(string id, string userName, string firstName, string lastName, string email, string password, string passwordRepeat)
+        public async Task<IActionResult> Update(string id, string userName, string firstName, string lastName, string email, string password, string passwordRepeat, string oldPassword)
         {
             AppUser user = await userManager.FindByIdAsync(id);
             if (user != null)
@@ -189,36 +189,40 @@ namespace WA_BlogSitesi_230124.Controllers
 				{
                     if (password == passwordRepeat)
                     {
-						user.PasswordHash = passwordHasher.HashPassword(user, password);
+						IdentityResult passwordChangeResult = await userManager.ChangePasswordAsync(user, oldPassword, password);
+                        if (!passwordChangeResult.Succeeded ) 
+                        {
+							foreach (var error in passwordChangeResult.Errors)
+							{
+								ModelState.AddModelError("ChangePassword", error.Description);
+							}
+						}
+                        else
+                        {
+							if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName) && !string.IsNullOrEmpty(passwordRepeat) && password == passwordRepeat)
+							{
+								IdentityResult result = await userManager.UpdateAsync(user);
+								if (result.Succeeded)
+								{
+									return RedirectToAction("Index");
+								}
+								else
+								{
+									Errors(result);
+								}
+							}
+						}
 					}
                     else
                     {
-						ModelState.AddModelError("UpdateUser", "First Name cannot be empty.");
+						ModelState.AddModelError("UpdateUser", "Passwords are not same.");
 					}
 					
 				}
 				else
 				{
-					ModelState.AddModelError("UpdateUser", "Passwords are not same.");
+					ModelState.AddModelError("UpdateUser", "Password cannot be empty.");
 				}
-
-				
-
-				
-
-                if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
-                {
-                    IdentityResult result = await userManager.UpdateAsync(user);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        Errors(result);
-
-                    }
-                }
             }
             else
             {
