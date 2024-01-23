@@ -806,12 +806,16 @@ namespace WA_BlogSitesi_230124.Controllers
 
         public async Task<IActionResult> GetArticle()
         {
-            List<Article> articles = appDbContext.Article.ToList();
+            // Makaleler  yazarlarıyla birlikte görüntülencek
+            List<Article> articles = appDbContext.Article.Include(a=>a.Author).ToList();
             return View(articles);
         }
 
         public async Task<IActionResult> AddArticle()
         {
+            // kullanıcı bulundu
+            // bulunan kullanıcı view kısmına gönderildi.
+            // view kısmına gönderme sebebi yazar olarak girilecek inputun dolu olması.
             var userName = HttpContext.User.Identity.Name;    
             var currentUser = await userManager.FindByNameAsync(userName);
             return View(currentUser);
@@ -821,19 +825,21 @@ namespace WA_BlogSitesi_230124.Controllers
         public async Task<IActionResult> AddArticle(Article article)
         {
             // article VM olacak.
+            //article nesnesine eşitlenecek
+            //db eklenecek . değişiklikler kaydedilecek.
             appDbContext.Article.Add(article);
-            
+            appDbContext.SaveChanges();
             return RedirectToAction("Index");
         }
         
         public async Task<IActionResult> ReadArticle(string id)
         {
+            //makale açılacak VM olarak görüntülenecek.
+            //action tetiklendikçe sayaç 1 artacak.
             Article article = appDbContext.Article.Find(id);
             article.ReadCounter += 1;
-            appDbContext.Article.Include(a=>a.Author);
-            
 
-            return RedirectToAction("Index");
+            return View(article);
         }
 
 
