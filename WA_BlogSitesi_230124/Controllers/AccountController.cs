@@ -21,7 +21,7 @@ namespace WA_BlogSitesi_230124.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Login(string returnUrl)
+        public IActionResult Login(string returnUrl = "/Account/Index")
         {
             Login login = new Login();
             login.ReturnUrl = returnUrl;
@@ -241,12 +241,40 @@ namespace WA_BlogSitesi_230124.Controllers
 			return View(vm);
         }
 
+        public async Task<IActionResult> ArticleList()
+        {
+            List<Article> articles = new List<Article>();
+            AppUser user = await userManager.GetUserAsync(HttpContext.User);
 
+            if (user != null)
+            {
+                if (user.Articles != null)
+                {
+					foreach (Article article in user.Articles)
+					{
+						articles.Add(article);
+					}
+				}
+                
+            }
+
+            return View(articles);
+        }
+
+        
         public async Task<IActionResult> Index()
 		{
-			AppUser user = await userManager.GetUserAsync(HttpContext.User);
+			if (User.Identity.IsAuthenticated)
+			{
+				AppUser user = await userManager.GetUserAsync(HttpContext.User);
+				return View(user);
+			}
+			else
+			{
+				// Redirect to login or handle unauthenticated user
+				return RedirectToAction("Login", "Account");
+			}
 
-			return View(user);
 		}
 
 

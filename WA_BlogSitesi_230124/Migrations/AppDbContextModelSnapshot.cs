@@ -243,11 +243,9 @@ namespace WA_BlogSitesi_230124.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AppUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -257,18 +255,16 @@ namespace WA_BlogSitesi_230124.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ReadCounter")
+                    b.Property<int?>("ReadCounter")
                         .HasColumnType("int");
 
                     b.Property<string>("ReadingTime")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SubjectId")
+                    b.Property<int?>("SubjectId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -360,15 +356,11 @@ namespace WA_BlogSitesi_230124.Migrations
                 {
                     b.HasOne("WA_BlogSitesi_230124.Entities.AppUser", "Author")
                         .WithMany("Articles")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserId");
 
                     b.HasOne("WA_BlogSitesi_230124.Entities.Subject", "Subject")
                         .WithMany("Articles")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubjectId");
 
                     b.Navigation("Author");
 
