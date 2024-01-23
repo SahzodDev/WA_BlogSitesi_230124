@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Linq;
 using WA_BlogSitesi_230124.Context;
 using WA_BlogSitesi_230124.Entities;
 using WA_BlogSitesi_230124.Models;
