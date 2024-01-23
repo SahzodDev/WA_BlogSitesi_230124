@@ -1,0 +1,99 @@
+﻿@using WA_BlogSitesi_230124.Entities;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model Index2VM
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Subject
+            </th>
+            <th>
+                Reading Time
+            </th>
+            <th>
+                Read Counter
+            </th>
+            <th> Process </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.MostViewedArticles)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReadingTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReadCounter)
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="#" asp-controller="Home" asp-route-id="@item.Id">Read</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@if(Model.FollowedSubjects.Count() == 0)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Subject
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AllSubjects)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Followed Subjects
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.FollowedSubjects)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+<p>
+    <a class="btn btn-primary" asp-action="AddSubject">Add New Subject</a>
+</p>
