@@ -846,11 +846,13 @@ namespace WA_BlogSitesi_230124.Controllers
 
             };
 
-
+            appDbContext.Article.Add(article);
+            appDbContext.SaveChanges();
+            return RedirectToAction("Index");
 
         }
 
-            public async Task<IActionResult> ReadArticle(string id)
+            public async Task<IActionResult> ReadArticle(int id)
         {
             //makale açılacak VM olarak görüntülenecek.
             //action tetiklendikçe sayaç 1 artacak.
