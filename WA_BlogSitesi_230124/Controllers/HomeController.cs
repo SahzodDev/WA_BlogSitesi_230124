@@ -26,7 +26,7 @@ namespace WA_BlogSitesi_230124.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult About()
         {
             return View();
         }
