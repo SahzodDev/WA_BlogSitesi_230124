@@ -428,7 +428,7 @@ namespace WA_BlogSitesi_230124.Controllers
         public async Task<IActionResult> AuthorDetail()
         {
             AppUser user = await userManager.GetUserAsync(HttpContext.User);
-            List<Article> articlesOfUser = appDbContext.Article.Where(a => a.AppUserId == user.Id).ToList();
+            List<Article> articlesOfUser = appDbContext.Article.Where(a => a.AppUserId == user.Id).OrderBy(x => x.CreatedDate).ToList();
             AppUserAuthorVM authorVM = new AppUserAuthorVM()
             {
                 AppUser = user,
@@ -901,10 +901,12 @@ namespace WA_BlogSitesi_230124.Controllers
         {
             Article article = new Article()
             {
-                AppUserId = createArticleVM.AuthorId,
+                Author = await userManager.FindByIdAsync(createArticleVM.AuthorId),
                 ReadingTime = createArticleVM.ReadingTime,
-                SubjectId = createArticleVM.SubjectId,
-                Name = createArticleVM.Title
+                Subject = appDbContext.Subject.FirstOrDefault(a => a.Id == createArticleVM.SubjectId),
+                Name = createArticleVM.Title,
+                Title = createArticleVM.Title,
+                Content = createArticleVM.Content,
 
             };
 

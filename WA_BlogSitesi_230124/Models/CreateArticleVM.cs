@@ -12,6 +12,8 @@ namespace WA_BlogSitesi_230124.Models
         public string ReadingTime { get; set; }
         public string AuthorId { get; set; }
 
+        public string Content { get; set; }
+
         public int SubjectId { get; set; }
 
         public IEnumerable<Subject> Subjects { get; set; }
