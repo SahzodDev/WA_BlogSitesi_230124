@@ -819,21 +819,29 @@ namespace WA_BlogSitesi_230124.Controllers
 
         public async Task<IActionResult> AddArticle()
         {
+            
+            CreateArticleVM createArticleVM=new CreateArticleVM();
+            AppUser user = await userManager.GetUserAsync(HttpContext.User);
+            createArticleVM.Author = user;
+            createArticleVM.Subjects=appDbContext.Subject.ToList();
+
             // kullanıcı bulundu
             // bulunan kullanıcı view kısmına gönderildi.
             // view kısmına gönderme sebebi yazar olarak girilecek inputun dolu olması.
-            var userName = HttpContext.User.Identity.Name;    
-            var currentUser = await userManager.FindByNameAsync(userName);
-            return View(currentUser);
+               
+            
+            return View(createArticleVM);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddArticle(Article article)
+        public async Task<IActionResult> AddArticle(CreateArticleVM createArticleVM)
         {
+            
+            
             // article VM olacak.
             //article nesnesine eşitlenecek
             //db eklenecek . değişiklikler kaydedilecek.
-            appDbContext.Article.Add(article);
+            //appDbContext.Article.Add();
             appDbContext.SaveChanges();
             return RedirectToAction("Index");
         }
