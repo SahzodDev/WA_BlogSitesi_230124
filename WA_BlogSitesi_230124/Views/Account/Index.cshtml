@@ -11,17 +11,47 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div> *@
 
-<h1 class="bg-info text-white">Home - Index</h1>
+<h1 class="bg-info text-white">Profile</h1>
 
 
 
 <br />
 
-@if (User?.Identity?.IsAuthenticated ?? false)
-{
-    <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Log Out</a>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <section class="bg-primary text-white p-3 rounded">
+                <h3>Kullanıcı Adı</h3>
+                <p class="font-weight-bold">@Model.UserName</p>
+            </section>
+        </div>
+        <div class="col-md-4">
+            <section class="bg-success text-white p-3 rounded">
+                <h3>Ad</h3>
+                <p class="font-weight-bold">@Model.FirstName</p>
+            </section>
+        </div>
+        <div class="col-md-4">
+            <section class="bg-info text-white p-3 rounded">
+                <h3>Soyad</h3>
+                <p class="font-weight-bold">@Model.LastName</p>
+            </section>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <section class="bg-warning text-dark p-3 rounded">
+                <h3>E-Mail</h3>
+                <p class="font-weight-bold">@Model.Email</p>
+            </section>
+        </div>
+    </div>
+</div>
 
-    <a asp-controller="Account" asp-action="Update" class="btn btn-outline-warning" asp-route-id="@Model.Id">Update</a>
 
-    <a asp-controller="Account" asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@Model.Id">Delete</a>
-}
+
+<hr />
+
+
+<a class="btn btn-danger" asp-action="LogOut">Logout</a>
+<a class="btn btn-warning" asp-action="Update" asp-controller="Account" asp-route-id="@Model.Id">Update</a>
